@@ -6,27 +6,24 @@ from question import models
 # Create your views here.
 
 def one_question(request, name):
-    """
-    data_list=list()
-    print(name)
-    for i in range(1,7):
-        data_list.append({"name":name+" "+ str(i)})          #заглушка
-    data={
-        "questions": data_list}
-    """
 
-    id=models.Article.objects.get(title=name).pk
+    try:
+        id=models.Article.objects.get(title=name).pk
+    except models.Article.DoesNotExist:
+        return (render(request,"./question/404.html"))
+
+
     answers=models.Answer.objects.by_question(id)
     paginated_data=paginate(answers,request)
     rendered_data = {"questions": paginated_data, "title": name}
-
     return render(request, "./question/one_question.html",rendered_data)
 
 
 
 def index_html(request):
     # return HttpResponse(year, content_type="text/plain")
-    articles = models.Article.objects.published()
+
+    articles = models.Article.objects.new_published()
     paginated_data=paginate(articles,request)
     rendered_data={"questions":paginated_data}
 
@@ -59,16 +56,11 @@ def questions_by_tag_html(request,tag="kek"):
 
 
 def hot_questions_html(request):
-    data_list = list()
-    for i in range(1, 10):
-        data_list.append({"name":str(i)})  # заглушка
-    data = {
-        "questions": data_list}
+    articles = models.Article.objects.best_published()
+    paginated_data = paginate(articles, request)
+    rendered_data = {"questions": paginated_data}
 
-    paginated_data=paginate(data["questions"],request)
-    rendered_data={"questions": paginated_data}
-    return render(request,"./question/hot_questions.html",rendered_data)
-
+    return render(request, "./question/hot_questions.html", rendered_data)
 
 
 def paginate(objects_list, request):
@@ -84,5 +76,7 @@ def paginate(objects_list, request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
     return contacts
+
+
 
 

@@ -8,9 +8,7 @@ class Author(models.Model):
     rating = models.IntegerField(default=0, verbose_name='Рейтинг')
     birthday = models.DateField(verbose_name='День рождения')
 
-
     def __str__(self):
-
         return '{}_{}'.format(self.name, self.rating)
 
     # "красивое" название модели
@@ -20,11 +18,14 @@ class Author(models.Model):
 
 
 class ArticleManager(models.Manager):
-    def published(self):
+    def new_published(self):
         return self.filter(
             is_published=True,
             date_published__lt=datetime.now(),
-        )
+        ).order_by("-date_published")
+
+    def best_published(self):
+        return self.filter(is_published=True, date_published__lt=datetime.now()).order_by("-like")
 
 
 class Article(models.Model):
@@ -36,6 +37,8 @@ class Article(models.Model):
         Author,
         on_delete=models.CASCADE,
     )
+    like = models.IntegerField(verbose_name="Число лайков", default=0)
+    dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
 
     objects = ArticleManager()  # model manager
 
@@ -50,19 +53,21 @@ class Article(models.Model):
         unique_together = [('title', 'text')]
 
 
-
 class AnswerManager(models.Manager):
-    def by_question(self,id):
-        return self.filter(question = id)
+    def by_question(self, id):
+        return self.filter(question=id)
 
 
 class Answer(models.Model):
-    question=models.ForeignKey(Article,on_delete=models.CASCADE)
+    question = models.ForeignKey(Article, on_delete=models.CASCADE)
+    like = models.IntegerField(verbose_name="Число лайков", default=0)
+    dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
 
-    text=models.TextField(verbose_name='Текст ответа')
-    date_published=models.DateTimeField(verbose_name='Дата ответа')
-    author=models.ForeignKey(Author,on_delete=models.CASCADE)
-    objects=AnswerManager()
+    text = models.TextField(verbose_name='Текст ответа')
+    date_published = models.DateTimeField(verbose_name='Дата ответа')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    objects = AnswerManager()
+
     def __str__(self):
         return self.text
 
