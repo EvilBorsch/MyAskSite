@@ -13,7 +13,7 @@
                 <div class="card-body d-flex flex-column align-items-start">
                     {% block link_to_ans %}
                     <h3 class="mb-0">
-                        <a href="{% url 'one_question_url' q %}" class="href">{{ q.title }}</a>
+                        <a href="{% url 'one_question_url' q.pk %}" class="href">{{ q.title }}</a>
                     </h3>
                     {% endblock %}
                     <div class="mb-1 text-muted">{{ q.date_published }} {{ q.author }}</div>
