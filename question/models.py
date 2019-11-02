@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from datetime import datetime
-from django.shortcuts import render
-
+from django.contrib.auth.models import AbstractUser
 
 class Like(models.Model):
     author=models.CharField(max_length=255,verbose_name="Автор лайка",default="admin")
     is_set=models.BooleanField(verbose_name="Поставлен ли лайк",default=False)
 
+    def __str__(self):
+        return str(self.author)
+
 
 class Dislike(models.Model):
     author = models.CharField(max_length=255,verbose_name="Автор дизлайка", default="admin")
     is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
+
+    def __str__(self):
+        return str(self.author)
 
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="Тег", default="TechnoPark")
@@ -102,6 +107,11 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
+
+
+
+
+
 
 
 

@@ -7,25 +7,19 @@ from question import models
 
 def one_question(request, m_id):
     try:
-        art = models.Article.objects.get(pk=m_id)
+        main_quest = models.Article.objects.get(pk=m_id)
     except (models.Article.DoesNotExist,ValueError):
         return render(request, "./question/404.html")
     answers = models.Answer.objects.by_question(m_id)
     paginated_data = paginate(answers, request)
-
-    rendered_data = {"questions": paginated_data, "main_question": art}
+    rendered_data = {"questions": paginated_data, "main_question": main_quest}
     return render(request, "./question/one_question.html", rendered_data)
 
 
 def index_html(request):
-    # return HttpResponse(year, content_type="text/plain")
-
     articles = models.Article.objects.new_published()
-
     paginated_data = paginate(articles, request)
-
     rendered_data = {"questions": paginated_data}
-
     return render(request, "./question/index.html", rendered_data)
 
 
@@ -43,6 +37,7 @@ def add_question_html(request):
 
 def questions_by_tag_html(request, tag="kek"):
     articles = models.Article.objects.by_tag(tag)
+
     paginated_data = paginate(articles, request)
     rendered_data = {"questions": paginated_data,"m_tag":tag}
     return render(request, "./question/questions_bt_tag.html", rendered_data)
