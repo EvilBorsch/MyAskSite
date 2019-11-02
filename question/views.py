@@ -6,15 +6,15 @@ from question import models
 
 # Create your views here.
 
-def one_question(request, name):
+def one_question(request, m_id):
     try:
-        title=models.Article.objects.get(pk=name).title
+        art = models.Article.objects.get(pk=m_id)
     except models.Article.DoesNotExist:
         return render(request, "./question/404.html")
-
-    answers = models.Answer.objects.by_question(name)
+    answers = models.Answer.objects.by_question(m_id)
     paginated_data = paginate(answers, request)
-    rendered_data = {"questions": paginated_data, "title": title}
+
+    rendered_data = {"questions": paginated_data, "main_question": art}
     return render(request, "./question/one_question.html", rendered_data)
 
 
@@ -22,7 +22,9 @@ def index_html(request):
     # return HttpResponse(year, content_type="text/plain")
 
     articles = models.Article.objects.new_published()
+
     paginated_data = paginate(articles, request)
+
     rendered_data = {"questions": paginated_data}
 
     return render(request, "./question/index.html", rendered_data)
@@ -41,15 +43,9 @@ def add_question_html(request):
 
 
 def questions_by_tag_html(request, tag="kek"):
-    data_list = list()
-    for i in range(1, 10):
-        data_list.append({"name": tag + " " + str(i)})  # заглушка
-    data = {
-        "questions": data_list}
-
-    paginated_data = paginate(data["questions"], request)
-
-    rendered_data = {"questions": paginated_data, "m_tag": tag}
+    articles = models.Article.objects.by_tag(tag)
+    paginated_data = paginate(articles, request)
+    rendered_data = {"questions": paginated_data,"m_tag":tag}
     return render(request, "./question/questions_bt_tag.html", rendered_data)
 
 

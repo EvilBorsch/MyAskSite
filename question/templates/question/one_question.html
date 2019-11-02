@@ -12,23 +12,23 @@
                         {% endblock %}
 
 {% block title %}
-
-
     <link rel="stylesheet" href="{% static "question/one_question/my.css" %}">
+
+
     <div class="main_question">
         <div class="card flex-md-row mb-4 box-shadow h-md-250" id="big_question">
             <div class="card-body d-flex flex-column align-items-start">
 
 
-                <h1>Я задал вопрос {{ title }} </h1>
-                <div class="mb-1 text-muted">Nov 12</div>
-                <p class="card-text mb-auto">Очень сложный и интересный вопрос</p>
+                <h1>{{ main_question.title }} </h1>
+                <div class="mb-1 text-muted">{{ main_question.date_published }}</div>
+                <p class="card-text mb-auto">{{ main_question.text }}</p>
                 <div class="fluid-container">
                     <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                        <input class="qty1" name="qty1" readonly="readonly" type="text" value="0"/>
+                        <input class="qty1" name="qty1" readonly="readonly" type="text" value="{{ main_question.like }}"/>
                     </a>
                     <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                        <input class="qty2" name="qty2" readonly="readonly" type="text" value="0"/>
+                        <input class="qty2" name="qty2" readonly="readonly" type="text" value="{{ main_question.dislike }}"/>
                     </a>
 
 

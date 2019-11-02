@@ -26,8 +26,11 @@
                             <input class="qty2" name="qty2" readonly="readonly" type="text" value="{{ q.dislike }}"/>
                         </a>
                         <b style="margin-left:10px;">Tags: </b>
-                        <a href="{% url 'question_by_tag_url' "chebu" %}">chebu</a>
-                        <a href="{% url 'question_by_tag_url' "rek" %}">rek</a>
+                        {% for tag in q.tags.all %}
+                            <a href="{% url 'question_by_tag_url' tag.name %}">{{tag }}</a>
+
+                            {% endfor %}
+
 
                         {% block correct %}
                         {% endblock %}

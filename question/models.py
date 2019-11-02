@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from datetime import datetime
+from django.shortcuts import render
+
+
+class Tags(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Тег", default="TechnoPark")
+    count = models.IntegerField(verbose_name="Число упоминаний")
+
+    def __str__(self):
+        return '{}_{}'.format(self.name, self.count)
 
 
 class Author(models.Model):
@@ -27,6 +36,8 @@ class ArticleManager(models.Manager):
     def best_published(self):
         return self.filter(is_published=True, date_published__lt=datetime.now()).order_by("-like")
 
+    def by_tag(self,tag):
+        return self.filter(is_published=True,date_published__lt=datetime.now(),tags__name=tag)
 
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
@@ -39,6 +50,7 @@ class Article(models.Model):
     )
     like = models.IntegerField(verbose_name="Число лайков", default=0)
     dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
+    tags = models.ManyToManyField(Tags)
 
     objects = ArticleManager()  # model manager
 
@@ -58,8 +70,10 @@ class AnswerManager(models.Manager):
         return self.filter(question=id)
 
 
+
 class Answer(models.Model):
     question = models.ForeignKey(Article, on_delete=models.CASCADE)
+
     like = models.IntegerField(verbose_name="Число лайков", default=0)
     dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
 
@@ -74,3 +88,15 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
+
+
+class Like(models.Model):
+    author=models.CharField(max_length=255,verbose_name="Автор лайка",default="admin")
+    is_set=models.BooleanField(verbose_name="Поставлен ли лайк",default=False)
+
+
+class Dislike(models.Model):
+    author = models.CharField(max_length=255,verbose_name="Автор дизлайка", default="admin")
+    is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
+
+

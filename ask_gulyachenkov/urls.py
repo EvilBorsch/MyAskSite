@@ -20,7 +20,7 @@ from question import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('question/', views.index_html, name="test"),
-    path('question/<str:name>', views.one_question, name="one_question_url"),
+    path('question/<str:m_id>', views.one_question, name="one_question_url"),
     path('', views.index_html, name="index"),
     path('login/',views.login_html,name="login_url"),
     path('register/',views.register_html,name="register_url"),
