@@ -12,24 +12,26 @@
             <div class="card flex-md-row mb-4 box-shadow h-md-250">
                 <div class="card-body d-flex flex-column align-items-start">
                     {% block link_to_ans %}
-                    <h3 class="mb-0">
-                        <a href="{% url 'one_question_url' q.pk %}" class="href">{{ q.title }}</a>
-                    </h3>
+                        <h3 class="mb-0">
+                            <a href="{% url 'one_question_url' q.pk %}" class="href">{{ q.title }}</a>
+                        </h3>
                     {% endblock %}
                     <div class="mb-1 text-muted">{{ q.date_published }} {{ q.author }}</div>
                     <p class="card-text mb-auto">{{ q.text }}</p>
                     <div class="fluid-container">
                         <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                            <input class="qty1" name="qty1" readonly="readonly" type="text" value="{{ q.like }}"/>
+                            <input class="qty1" name="qty1" readonly="readonly" type="text"
+                                   value="{{ q.like.all.count }}"/>
                         </a>
                         <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                            <input class="qty2" name="qty2" readonly="readonly" type="text" value="{{ q.dislike }}"/>
+                            <input class="qty2" name="qty2" readonly="readonly" type="text"
+                                   value="{{ q.dislike.all.count }}"/>
                         </a>
                         <b style="margin-left:10px;">Tags: </b>
                         {% for tag in q.tags.all %}
-                            <a href="{% url 'question_by_tag_url' tag.name %}">{{tag }}</a>
+                            <a href="{% url 'question_by_tag_url' tag.name %}">{{ tag }}</a>
 
-                            {% endfor %}
+                        {% endfor %}
 
 
                         {% block correct %}
@@ -60,7 +62,7 @@
             </li>
             {% if questions.paginator.num_pages >= 2 %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=2" >2 <span class="sr-only">(current)</span></a>
+                    <a class="page-link" href="?page=2">2 <span class="sr-only">(current)</span></a>
                 </li>
             {% endif %}
 
@@ -70,8 +72,8 @@
                     <a class="page-link" href="?page=3">3 <span class="sr-only">(current)</span></a>
                 </li>
             {% endif %}
-        <li class="page-item"><a class="page-link"
-                                         href="?page={{ questions.paginator.num_pages }}">Последняя</a></li>
+            <li class="page-item"><a class="page-link"
+                                     href="?page={{ questions.paginator.num_pages }}">Последняя</a></li>
 
             {% if questions.has_next %}
                 <li class="page-item active">

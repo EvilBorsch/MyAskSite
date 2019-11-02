@@ -4,12 +4,11 @@ from django.http import HttpResponse
 from question import models
 
 
-# Create your views here.
 
 def one_question(request, m_id):
     try:
         art = models.Article.objects.get(pk=m_id)
-    except models.Article.DoesNotExist:
+    except (models.Article.DoesNotExist,ValueError):
         return render(request, "./question/404.html")
     answers = models.Answer.objects.by_question(m_id)
     paginated_data = paginate(answers, request)

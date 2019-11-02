@@ -4,6 +4,15 @@ from datetime import datetime
 from django.shortcuts import render
 
 
+class Like(models.Model):
+    author=models.CharField(max_length=255,verbose_name="Автор лайка",default="admin")
+    is_set=models.BooleanField(verbose_name="Поставлен ли лайк",default=False)
+
+
+class Dislike(models.Model):
+    author = models.CharField(max_length=255,verbose_name="Автор дизлайка", default="admin")
+    is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
+
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="Тег", default="TechnoPark")
     count = models.IntegerField(verbose_name="Число упоминаний")
@@ -34,7 +43,9 @@ class ArticleManager(models.Manager):
         ).order_by("-date_published")
 
     def best_published(self):
-        return self.filter(is_published=True, date_published__lt=datetime.now()).order_by("-like")
+        test=list(self.filter(is_published=True, date_published__lt=datetime.now()))
+        test=sorted(test, key=lambda x: x.like.count(),reverse=True)
+        return test
 
     def by_tag(self,tag):
         return self.filter(is_published=True,date_published__lt=datetime.now(),tags__name=tag)
@@ -48,8 +59,11 @@ class Article(models.Model):
         Author,
         on_delete=models.CASCADE,
     )
-    like = models.IntegerField(verbose_name="Число лайков", default=0)
-    dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
+
+    like = models.ManyToManyField(Like,related_name="Like")
+
+
+    dislike = models.ManyToManyField(Dislike)
     tags = models.ManyToManyField(Tags)
 
     objects = ArticleManager()  # model manager
@@ -74,8 +88,8 @@ class AnswerManager(models.Manager):
 class Answer(models.Model):
     question = models.ForeignKey(Article, on_delete=models.CASCADE)
 
-    like = models.IntegerField(verbose_name="Число лайков", default=0)
-    dislike = models.IntegerField(verbose_name="Число дизлайков", default=0)
+    like = models.ManyToManyField(Like)
+    dislike = models.ManyToManyField(Dislike)
 
     text = models.TextField(verbose_name='Текст ответа')
     date_published = models.DateTimeField(verbose_name='Дата ответа')
@@ -90,13 +104,5 @@ class Answer(models.Model):
         verbose_name_plural = 'Ответы'
 
 
-class Like(models.Model):
-    author=models.CharField(max_length=255,verbose_name="Автор лайка",default="admin")
-    is_set=models.BooleanField(verbose_name="Поставлен ли лайк",default=False)
-
-
-class Dislike(models.Model):
-    author = models.CharField(max_length=255,verbose_name="Автор дизлайка", default="admin")
-    is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
 
 
