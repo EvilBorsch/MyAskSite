@@ -4,44 +4,45 @@
     <link rel="stylesheet" href="{% static "question/add_question/my.css" %}">
     <div class="add_question">
 
-              <h1>Новый вопрос</h1>
+        <h1>Новый вопрос</h1>
 
-              <div class="in">
-                <div class="row">
-                  <div class="col-xs-6 col-md-2">
+        <div class="in">
+            <div class="row">
+                <div class="col-xs-6 col-md-2">
                     <b>Название</b>
-                  </div>
-                    <div class="col-xs-12 col-sm-6 col-md-8">
-                          <input class="form-control mr-sm-2" type="text" placeholder="Введите название" aria-label="Search">
-                    </div>
                 </div>
-              </div>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Введите название" aria-label="Search">
+                </div>
+            </div>
+        </div>
 
-              <div class="in">
-                <div class="row">
-                  <div class="col-xs-6 col-md-2">
+        <div class="in">
+            <div class="row">
+                <div class="col-xs-6 col-md-2">
                     <b>Текст</b>
-                  </div>
-                    <div class="col-xs-12 col-sm-6 col-md-8">
-                          <textarea class="form-control" rows="9" placeholder="Ваш текст" ></textarea>
-                    </div>
                 </div>
-              </div>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    <textarea class="form-control" rows="9" placeholder="Ваш текст"></textarea>
+                </div>
+            </div>
+        </div>
 
-              <div class="in">
-                <div class="row">
-                  <div class="col-xs-6 col-md-2">
+        <div class="in">
+            <div class="row">
+                <div class="col-xs-6 col-md-2">
                     <b>Теги</b>
-                  </div>
-                    <div class="col-xs-12 col-sm-6 col-md-8">
-                          <input class="form-control mr-sm-2" type="text" placeholder="Введите список тегов" aria-label="Search">
-                    </div>
                 </div>
-              </div>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Введите список тегов"
+                           aria-label="Search">
+                </div>
+            </div>
+        </div>
 
-              <a class="btn btn-outline-success my-2 my-sm-0"  href="{% url 'one_question_url' 28 %}">Спросить</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'one_question_url' 28 %}">Спросить</a>
 
-          </div>
+    </div>
 
 {% endblock %}
 

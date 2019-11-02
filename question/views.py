@@ -1,14 +1,13 @@
-from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponse
-from question import models
+from django.shortcuts import render
 
+from question import models
 
 
 def one_question(request, m_id):
     try:
         main_quest = models.Article.objects.get(pk=m_id)
-    except (models.Article.DoesNotExist,ValueError):
+    except (models.Article.DoesNotExist, ValueError):
         return render(request, "./question/404.html")
     answers = models.Answer.objects.by_question(m_id)
     paginated_data = paginate(answers, request)
@@ -39,7 +38,7 @@ def questions_by_tag_html(request, tag="kek"):
     articles = models.Article.objects.by_tag(tag)
 
     paginated_data = paginate(articles, request)
-    rendered_data = {"questions": paginated_data,"m_tag":tag}
+    rendered_data = {"questions": paginated_data, "m_tag": tag}
     return render(request, "./question/questions_bt_tag.html", rendered_data)
 
 

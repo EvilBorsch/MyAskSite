@@ -3,13 +3,13 @@
 
 {% block correct %}
 
-                  <a class="checkbox">
-                    <label>
-                      <input type="checkbox" value="" >
-                        <b>correct</b>
-                    </label>
-                  </a>
-                        {% endblock %}
+    <a class="checkbox">
+        <label>
+            <input type="checkbox" value="">
+            <b>correct</b>
+        </label>
+    </a>
+{% endblock %}
 
 {% block title %}
     <link rel="stylesheet" href="{% static "question/one_question/my.css" %}">
@@ -25,10 +25,12 @@
                 <p class="card-text mb-auto">{{ main_question.text }}</p>
                 <div class="fluid-container">
                     <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                        <input class="qty1" name="qty1" readonly="readonly" type="text" value="{{ main_question.like.all.count }}"/>
+                        <input class="qty1" name="qty1" readonly="readonly" type="text"
+                               value="{{ main_question.like.all.count }}"/>
                     </a>
                     <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                        <input class="qty2" name="qty2" readonly="readonly" type="text" value="{{ main_question.dislike.all.count }}"/>
+                        <input class="qty2" name="qty2" readonly="readonly" type="text"
+                               value="{{ main_question.dislike.all.count }}"/>
                     </a>
 
 
@@ -42,7 +44,7 @@
     </div>
 {% endblock %}
 
-    {% block pre_paginator %}
+{% block pre_paginator %}
     <hr size="8" color="gray">
 
     <div class="in">

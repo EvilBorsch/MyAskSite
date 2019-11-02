@@ -3,28 +3,29 @@
 {% block content %}
     <link rel="stylesheet" href="{% static "question/login/my.css" %}">
     <div class login>
-    <div class="container col-md-9"  style="margin-top: 90px;">
-    <form class="form-signin">
-      <div class="text-center mb-4">
+        <div class="container col-md-9" style="margin-top: 90px;">
+            <form class="form-signin">
+                <div class="text-center mb-4">
 
-        <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
-      </div>
+                    <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
+                </div>
 
-      <div class="form-label-group">
-        Email
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <br>
-      </div>
+                <div class="form-label-group">
+                    Email
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required
+                           autofocus>
+                    <br>
+                </div>
 
-      <div class="form-label-group">
-        Password
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <br>
-      </div>
+                <div class="form-label-group">
+                    Password
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <br>
+                </div>
 
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <a href="{% url 'register_url' %}">create new account</a>
-    </form>
-  </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <a href="{% url 'register_url' %}">create new account</a>
+            </form>
+        </div>
     </div>
 {% endblock %}

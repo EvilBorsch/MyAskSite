@@ -1,60 +1,63 @@
 {% extends "question/base.html" %}
 {% load static %}
 {% block content %}
-<div class="register">
-    <div class="container col-md-10">
-        <form class="form-signin">
-          <div class="text-center mb-4">
+    <div class="register">
+        <div class="container col-md-10">
+            <form class="form-signin">
+                <div class="text-center mb-4">
 
-            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
-          </div>
+                    <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+                </div>
 
-          <div class="form-label-group">
-            Login
-            <input type="text" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
-            <br>
-          </div>
+                <div class="form-label-group">
+                    Login
+                    <input type="text" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
+                    <br>
+                </div>
 
-          <div class="form-label-group">
-            Email
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-            <br>
-          </div>
+                <div class="form-label-group">
+                    Email
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                    <br>
+                </div>
 
-          <div class="form-label-group">
-            Nickname
-            <input type="text" id="inputNickname" class="form-control" placeholder="Nickname" required autofocus>
-            <br>
-          </div>
+                <div class="form-label-group">
+                    Nickname
+                    <input type="text" id="inputNickname" class="form-control" placeholder="Nickname" required
+                           autofocus>
+                    <br>
+                </div>
 
 
-          <div class="form-label-group">
-            Пароль
-            <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
-            <br>
-          </div>
+                <div class="form-label-group">
+                    Пароль
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+                    <br>
+                </div>
 
-          <div class="form-label-group">
-            Повторите пароль
-            <input type="password" id="inputRepeatPassword" class="form-control" placeholder="Повторите пароль" required>
-            <br>
-          </div>
+                <div class="form-label-group">
+                    Повторите пароль
+                    <input type="password" id="inputRepeatPassword" class="form-control" placeholder="Повторите пароль"
+                           required>
+                    <br>
+                </div>
 
-          Аватар
-          <div class="input-group">
-            <input class="form-control" id="disabledInput" type="file" placeholder="Путь до фотографии" required>
-            <span class="input-group-btn">
+                Аватар
+                <div class="input-group">
+                    <input class="form-control" id="disabledInput" type="file" placeholder="Путь до фотографии"
+                           required>
+                    <span class="input-group-btn">
               <button class="btn btn-primary" type="submit">Сохранить</button>
             </span>
 
-          </div>
+                </div>
 
-          <br>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
-        </form>
-      </div>
-</div>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
 

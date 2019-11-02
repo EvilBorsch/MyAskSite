@@ -1,22 +1,25 @@
 # -*- coding: utf-8 -*-
-from django.db import models
 from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 
 class Like(models.Model):
-    author=models.CharField(max_length=255,verbose_name="Автор лайка",default="admin")
-    is_set=models.BooleanField(verbose_name="Поставлен ли лайк",default=False)
+    author = models.CharField(max_length=255, verbose_name="Автор лайка", default="admin")
+    is_set = models.BooleanField(verbose_name="Поставлен ли лайк", default=False)
 
     def __str__(self):
         return str(self.author)
 
 
 class Dislike(models.Model):
-    author = models.CharField(max_length=255,verbose_name="Автор дизлайка", default="admin")
+    author = models.CharField(max_length=255, verbose_name="Автор дизлайка", default="admin")
     is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
 
     def __str__(self):
         return str(self.author)
+
 
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="Тег", default="TechnoPark")
@@ -48,12 +51,13 @@ class ArticleManager(models.Manager):
         ).order_by("-date_published")
 
     def best_published(self):
-        test=list(self.filter(is_published=True, date_published__lt=datetime.now()))
-        test=sorted(test, key=lambda x: x.like.count(),reverse=True)
+        test = list(self.filter(is_published=True, date_published__lt=datetime.now()))
+        test = sorted(test, key=lambda x: x.like.count(), reverse=True)
         return test
 
-    def by_tag(self,tag):
-        return self.filter(is_published=True,date_published__lt=datetime.now(),tags__name=tag)
+    def by_tag(self, tag):
+        return self.filter(is_published=True, date_published__lt=datetime.now(), tags__name=tag)
+
 
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
@@ -65,8 +69,7 @@ class Article(models.Model):
         on_delete=models.CASCADE,
     )
 
-    like = models.ManyToManyField(Like,related_name="Like")
-
+    like = models.ManyToManyField(Like, related_name="Like")
 
     dislike = models.ManyToManyField(Dislike)
     tags = models.ManyToManyField(Tags)
@@ -89,7 +92,6 @@ class AnswerManager(models.Manager):
         return self.filter(question=id)
 
 
-
 class Answer(models.Model):
     question = models.ForeignKey(Article, on_delete=models.CASCADE)
 
@@ -107,12 +109,3 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
-
-
-
-
-
-
-
-
-
