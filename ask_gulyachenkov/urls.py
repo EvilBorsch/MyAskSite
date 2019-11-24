@@ -26,5 +26,6 @@ urlpatterns = [
     path('register/',views.register_html,name="register_url"),
     path('add_question/',views.add_question_html,name="add_question_url"),
     path('question_by_tag/<str:tag>',views.questions_by_tag_html,name="question_by_tag_url"),
-    path('hot_questions/',views.hot_questions_html,name="hot_questions_url")
+    path('hot_questions/',views.hot_questions_html,name="hot_questions_url"),
+
 ]

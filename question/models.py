@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+
 class Like(models.Model):
     author = models.CharField(max_length=255, verbose_name="Автор лайка", default="admin")
     is_set = models.BooleanField(verbose_name="Поставлен ли лайк", default=False)
@@ -109,3 +110,7 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
+
+
+
+

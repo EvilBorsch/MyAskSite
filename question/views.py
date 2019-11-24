@@ -1,7 +1,11 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from question import models
+from question.forms import LoginForm, RegisterForm
+from userprofile.models import UserProfile
 
 
 def one_question(request, m_id):
@@ -23,11 +27,51 @@ def index_html(request):
 
 
 def login_html(request):
-    return render(request, "./question/login.html")
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            print("OK")
+            username = form.clean_username()
+            password = form.clean_password()
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                form.add_error(None, 'Неправильный логин или пароль')
+
+                return render(request, "./question/login.html", {"form": form})
+        else:
+
+            return render(request, "./question/login.html", {"form": form})
+    else:
+        form = LoginForm()
+        return render(request, "./question/login.html", {"form": form})
 
 
 def register_html(request):
-    return render(request, "./question/register.html")
+
+    if request.method == "POST":
+        print(request.POST)
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            print("OK")
+            username = form.clean_login()
+            password = form.clean_password()
+            email = form.clean_email()
+            nickname = form.clean_nickname()
+            avatar = form.clean_avatar()
+            user = UserProfile.objects.create_user(username=username, password=password, email=email, nickname=nickname,
+                                                   avatar=avatar)
+            user.save()
+            return redirect('/')
+        else:
+            print(form.errors)
+            return render(request, "./question/register.html", {"form": form})
+    else:
+        form = RegisterForm()
+        return render(request, "./question/register.html", {"form": form})
 
 
 def add_question_html(request):
@@ -36,7 +80,6 @@ def add_question_html(request):
 
 def questions_by_tag_html(request, tag="kek"):
     articles = models.Article.objects.by_tag(tag)
-
     paginated_data = paginate(articles, request)
     rendered_data = {"questions": paginated_data, "m_tag": tag}
     return render(request, "./question/questions_bt_tag.html", rendered_data)
