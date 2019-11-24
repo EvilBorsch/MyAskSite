@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 
@@ -55,15 +56,16 @@ def register_html(request):
         print(request.POST)
         form = RegisterForm(request.POST)
 
-        if form.is_valid():
+        if not form.is_valid():
             print("OK")
             username = form.clean_login()
             password = form.clean_password()
             email = form.clean_email()
             nickname = form.clean_nickname()
             avatar = form.clean_avatar()
-            user = UserProfile.objects.create_user(username=username, password=password, email=email, nickname=nickname,
-                                                   avatar=avatar)
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.first_name=nickname
+            user.avatar=avatar
             user.save()
             return redirect('/')
         else:

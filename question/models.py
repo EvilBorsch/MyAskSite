@@ -64,16 +64,16 @@ class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     date_published = models.DateTimeField(verbose_name='Дата публикации')
-    is_published = models.BooleanField(verbose_name='Опубликовано')
+    is_published = models.BooleanField(verbose_name='Опубликовано',default=True)
     author = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,
     )
 
-    like = models.ManyToManyField(Like, related_name="Like")
+    like = models.ManyToManyField(Like, related_name="Like",blank=True)
 
-    dislike = models.ManyToManyField(Dislike)
-    tags = models.ManyToManyField(Tags)
+    dislike = models.ManyToManyField(Dislike,blank=True)
+    tags = models.ManyToManyField(Tags,blank=True)
 
     objects = ArticleManager()  # model manager
 
@@ -96,8 +96,8 @@ class AnswerManager(models.Manager):
 class Answer(models.Model):
     question = models.ForeignKey(Article, on_delete=models.CASCADE)
 
-    like = models.ManyToManyField(Like)
-    dislike = models.ManyToManyField(Dislike)
+    like = models.ManyToManyField(Like,blank=True)
+    dislike = models.ManyToManyField(Dislike,blank=True)
 
     text = models.TextField(verbose_name='Текст ответа')
     date_published = models.DateTimeField(verbose_name='Дата ответа')
