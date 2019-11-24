@@ -53,9 +53,23 @@
         </div>
 
         <div class="nav-item">
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login_url' %}">Войти</a>
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'register_url' %}">Регистрация</a>
+
+            {% if user.is_authenticated %}
+                <a href="#">Hi,{{ user.username }}</a>
+                <img src={% static "question/base/default.jpeg" %} alt="" class="avatar"/>
+                <a class="btn btn-sm btn-outline-secondary" href="#">Настройки</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'logout_url' %}">Выйти</a>
+
+            {% else %}
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'login_url' %}">Войти</a>
+
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'register_url' %}">Регистрация</a>
+            {% endif %}
+
+
         </div>
+
+
 
     </nav>
 </header>

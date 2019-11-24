@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -51,7 +51,6 @@ def login_html(request):
 
 
 def register_html(request):
-
     if request.method == "POST":
         print(request.POST)
         form = RegisterForm(request.POST)
@@ -64,8 +63,8 @@ def register_html(request):
             nickname = form.clean_nickname()
             avatar = form.clean_avatar()
             user = User.objects.create_user(username=username, password=password, email=email)
-            user.first_name=nickname
-            user.avatar=avatar
+            user.first_name = nickname
+            user.avatar = avatar
             user.save()
             return redirect('/')
         else:
@@ -108,3 +107,8 @@ def paginate(objects_list, request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
     return contacts
+
+
+def log_out(request):
+    logout(request)
+    return redirect(request.META.get('HTTP_REFERER'))

@@ -16,6 +16,7 @@
                     {% endblock %}
                     <div class="mb-1 text-muted">{{ q.date_published }} {{ q.author }}</div>
                     <p class="card-text mb-auto">{{ q.text }}</p>
+
                     <div class="fluid-container">
                         <a class="like"><i class="fa fa-thumbs-o-up"></i>
                             <input class="qty1" name="qty1" readonly="readonly" type="text"
@@ -25,7 +26,7 @@
                             <input class="qty2" name="qty2" readonly="readonly" type="text"
                                    value="{{ q.dislike.all.count }}"/>
                         </a>
-                        <b style="margin-left:10px;">Tags: </b>
+                        <b style="margin-left:10px;"> </b>
                         {% for tag in q.tags.all %}
                             <a href="{% url 'question_by_tag_url' tag.name %}">{{ tag }}</a>
 
