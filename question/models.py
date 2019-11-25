@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -24,16 +25,15 @@ class Dislike(models.Model):
 
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="Тег", default="TechnoPark")
-    count = models.IntegerField(verbose_name="Число упоминаний")
+    count = models.IntegerField(verbose_name="Число упоминаний",default=0)
 
     def __str__(self):
         return '{}_{}'.format(self.name, self.count)
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Имя')
+    name = models.CharField(max_length=255, verbose_name='Имя',unique=True)
     rating = models.IntegerField(default=0, verbose_name='Рейтинг')
-    birthday = models.DateField(verbose_name='День рождения')
 
     def __str__(self):
         return '{}_{}'.format(self.name, self.rating)
@@ -63,8 +63,8 @@ class ArticleManager(models.Manager):
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
-    date_published = models.DateTimeField(verbose_name='Дата публикации')
-    is_published = models.BooleanField(verbose_name='Опубликовано',default=True)
+    date_published = models.DateTimeField(verbose_name='Дата публикации',default=timezone.now())
+    is_published = models.BooleanField(verbose_name='Опубликовано',default=True,blank=True)
     author = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,

@@ -6,8 +6,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 
 from question import models
-from question.forms import LoginForm, RegisterForm
+from question.forms import LoginForm, RegisterForm, QuestionForm
+from question.models import Author, Article, Tags
 from userprofile.models import UserProfile
+from django.urls import reverse
 
 
 def one_question(request, m_id):
@@ -55,10 +57,11 @@ def login_html(request):
 
 def register_html(request):
     if request.method == "POST":
-        print(request.POST)
+        # print(request.POST)
         form = RegisterForm(request.POST)
+        # print(form.cleaned_data)
 
-        if not form.is_valid():
+        if form.is_valid():
             print("OK")
             username = form.clean_login()
             password = form.clean_password()
@@ -80,7 +83,29 @@ def register_html(request):
 
 
 def add_question_html(request):
-    return render(request, "./question/add_question.html")
+    try:
+        aut = Author.objects.get(name=request.user.username)
+    except Author.DoesNotExist:
+        aut.save()
+
+    if request.POST:
+        form = QuestionForm(
+            aut, data=request.POST)
+        if form.is_valid():
+            question = form.save()
+            return redirect(
+                reverse(
+                    "one_question_url", kwargs={'m_id': question.pk}))
+        else:
+            print(form.errors)
+            return render(request, 'question/add_question.html', {
+                'form': form,
+            })
+    else:
+        form = QuestionForm(aut)
+        return render(request, 'question/add_question.html', {
+            'form': form,
+        })
 
 
 def questions_by_tag_html(request, tag="kek"):

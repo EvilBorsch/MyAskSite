@@ -3,7 +3,7 @@ from django.core.validators import validate_email
 from django.forms import ModelForm
 from django import forms
 
-from question.models import Article
+from question.models import Article, Author, Tags
 from userprofile.models import UserProfile
 
 
@@ -82,4 +82,33 @@ class RegisterForm(ModelForm):
             return avatar
         except:
             print("test")
+
+
+class QuestionForm(ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ['title', 'text']
+
+    def __init__(self, author, *args, **kwargs):
+        self.author = author
+
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.author = self.author
+
+        if commit:
+            obj.save()
+        return obj
+
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        if 'bad word' in data:
+            self.add_error('title', 'bad word detected!')
+        return data
+
+
+
 

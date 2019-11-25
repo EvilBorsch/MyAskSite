@@ -2,9 +2,19 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static "question/add_question/my.css" %}">
-    <div class="add_question">
-
+    <form class="add_question" method="POST">
+        {% csrf_token %}
         <h1>Новый вопрос</h1>
+
+        {% ifequal request.method "POST" %}
+                    {% for error in form.errors %}
+                        {% ifnotequal error "__all__" %}
+                            <div class="alert alert-primary" role="alert">
+                                Некорректный {{ error }}
+                            </div>
+                        {% endifnotequal %}
+                    {% endfor %}
+                {% endifequal %}
 
         <div class="in">
             <div class="row">
@@ -12,7 +22,7 @@
                     <b>Название</b>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-8">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Введите название" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Введите название" aria-label="Search" {{ form.title }}
                 </div>
             </div>
         </div>
@@ -23,7 +33,7 @@
                     <b>Текст</b>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-8">
-                    <textarea class="form-control" rows="9" placeholder="Ваш текст"></textarea>
+                    <textarea class="form-control" rows="9" placeholder="Ваш текст" {{ form.text }}</textarea>
                 </div>
             </div>
         </div>
@@ -35,14 +45,14 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-8">
                     <input class="form-control mr-sm-2" type="text" placeholder="Введите список тегов"
-                           aria-label="Search">
+                           aria-label="Search" {{ form.tags }}
                 </div>
             </div>
         </div>
 
-        <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'one_question_url' 28 %}">Спросить</a>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Задать вопрос</button>
 
-    </div>
+    </form>
 
 {% endblock %}
 
