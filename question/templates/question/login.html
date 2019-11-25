@@ -19,15 +19,15 @@
 
 
 
-
-            {% for error in form.errors %}
-                {% ifnotequal error "__all__" %}
-                <div class="alert alert-primary" role="alert">
-                    Некорректный {{ error }}
-                </div>
-                {%  endifnotequal %}
-
-            {% endfor %}
+            {% ifequal request.method "POST" %}
+                {% for error in form.errors %}
+                    {% ifnotequal error "__all__" %}
+                        <div class="alert alert-primary" role="alert">
+                            Некорректный {{ error }}
+                        </div>
+                    {% endifnotequal %}
+                {% endfor %}
+            {% endifequal %}
 
 
 

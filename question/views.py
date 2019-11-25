@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -29,6 +30,7 @@ def index_html(request):
 
 def login_html(request):
     if request.method == "POST":
+        redirected_path = request.GET["put"]
         form = LoginForm(request.POST)
         if form.is_valid():
             print("OK")
@@ -37,7 +39,7 @@ def login_html(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                return redirect(redirected_path)
             else:
                 form.add_error(None, 'Неправильный логин или пароль')
 
@@ -47,6 +49,7 @@ def login_html(request):
             return render(request, "./question/login.html", {"form": form})
     else:
         form = LoginForm()
+
         return render(request, "./question/login.html", {"form": form})
 
 
@@ -66,6 +69,7 @@ def register_html(request):
             user.first_name = nickname
             user.avatar = avatar
             user.save()
+            login(request, user=user)
             return redirect('/')
         else:
             print(form.errors)
@@ -112,3 +116,31 @@ def paginate(objects_list, request):
 def log_out(request):
     logout(request)
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+def profile_edit(request):
+    if not request.user.is_authenticated:
+        return redirect('/')
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if not form.is_valid():
+            print("okok")
+            nickname = form.clean_nickname()
+            password = form.clean_password()
+            email = form.clean_email()
+            request.user.email = email
+            request.user.set_password(password)
+            request.user.username = form.clean_login()
+            request.user.first_name = nickname
+            request.user.save()
+            login(request, user=request.user)
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            print(form.errors)
+            return render(request, "./question/profile.html", {"form": form})
+    else:
+
+        data = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
+        form = RegisterForm(data)
+        return render(request, "./question/profile.html", {"form": form})

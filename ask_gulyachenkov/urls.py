@@ -27,6 +27,7 @@ urlpatterns = [
     path('add_question/',views.add_question_html,name="add_question_url"),
     path('question_by_tag/<str:tag>',views.questions_by_tag_html,name="question_by_tag_url"),
     path('hot_questions/',views.hot_questions_html,name="hot_questions_url"),
-    path('logout/',views.log_out,name="logout_url")
+    path('logout/',views.log_out,name="logout_url"),
+    path('profile/edit',views.profile_edit,name="profile_edit_url")
 
 ]
