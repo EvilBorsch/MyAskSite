@@ -83,6 +83,10 @@ def register_html(request):
 
 
 def add_question_html(request):
+
+    if not request.user.is_authenticated:
+        return redirect('/')
+
     try:
         aut = Author.objects.get(name=request.user.username)
     except Author.DoesNotExist:
