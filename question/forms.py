@@ -92,15 +92,15 @@ class QuestionForm(ModelForm):
 
     def __init__(self, author, *args, **kwargs):
         self.author = author
-
+        self.tags=Tags.objects.get(name="asdas")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         obj = super().save(commit=False)
         obj.author = self.author
-
         if commit:
             obj.save()
+        obj.tags.add(self.tags)
         return obj
 
     def clean_title(self):
@@ -108,7 +108,3 @@ class QuestionForm(ModelForm):
         if 'bad word' in data:
             self.add_error('title', 'bad word detected!')
         return data
-
-
-
-
