@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django import forms
 
 from question import models
-from question.models import Article, Author, Tags
+from question.models import Article, Author, Tags, Answer
 from userprofile.models import UserProfile
 
 
@@ -94,7 +94,6 @@ class QuestionForm(ModelForm):
 
     def __init__(self, author, *args, **kwargs):
         self.author = author
-
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
@@ -124,3 +123,9 @@ class QuestionForm(ModelForm):
                 tag.save()
             clean_tag_list.append(tag)
         return clean_tag_list
+
+
+class AnswerForm(ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['text']

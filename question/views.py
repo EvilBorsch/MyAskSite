@@ -1,6 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
@@ -8,7 +6,6 @@ from django.shortcuts import render, redirect
 from question import models
 from question.forms import LoginForm, RegisterForm, QuestionForm
 from question.models import Author, Article, Tags
-from userprofile.models import UserProfile
 from django.urls import reverse
 
 

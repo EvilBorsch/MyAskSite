@@ -63,7 +63,7 @@ class ArticleManager(models.Manager):
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
-    date_published = models.DateTimeField(verbose_name='Дата публикации',default=timezone.now())
+    date_published = models.DateTimeField(verbose_name='Дата публикации', default=datetime.now())
     is_published = models.BooleanField(verbose_name='Опубликовано',default=True,blank=True)
     author = models.ForeignKey(
         Author,
@@ -100,7 +100,7 @@ class Answer(models.Model):
     dislike = models.ManyToManyField(Dislike,blank=True)
 
     text = models.TextField(verbose_name='Текст ответа')
-    date_published = models.DateTimeField(verbose_name='Дата ответа')
+    date_published = models.DateTimeField(verbose_name='Дата ответа', default=datetime.now())
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     objects = AnswerManager()
 
