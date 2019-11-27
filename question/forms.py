@@ -102,15 +102,8 @@ class QuestionForm(ModelForm):
         obj.author = self.author
         if commit:
             obj.save()
-        try:
-            tag = Tags.objects.get(name=self.cleaned_data['m_tag'])
-
-        except models.Tags.DoesNotExist:
-            tag = Tags(name=self.cleaned_data['m_tag'])
-            tag.save()
-
-        self.tags = tag
-        obj.tags.add(self.tags)
+        self.tags = self.cleaned_data['m_tag']
+        obj.tags.set(self.tags)
         return obj
 
     def clean_title(self):
@@ -121,5 +114,13 @@ class QuestionForm(ModelForm):
 
     def clean_m_tag(self):
         tag = self.cleaned_data['m_tag']
-        tag = tag.split(',')
-        return tag
+        tag_list = tag.split(',')
+        clean_tag_list = []
+        for tag in tag_list:
+            try:
+                tag = Tags.objects.get(name=tag)
+            except models.Tags.DoesNotExist:
+                tag = Tags(name=tag)
+                tag.save()
+            clean_tag_list.append(tag)
+        return clean_tag_list
