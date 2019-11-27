@@ -25,9 +25,10 @@ def one_question(request, m_id):
 
         form = AnswerForm(
             author=aut, question_id=m_id, data=request.POST)
+
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect(request.META.get('HTTP_REFERER'))
         else:
             print(form.errors)
             rendered_data = {"questions": paginated_data, "main_question": main_quest, "form": form}
