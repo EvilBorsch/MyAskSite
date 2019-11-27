@@ -48,22 +48,22 @@ class ArticleManager(models.Manager):
     def new_published(self):
         return self.filter(
             is_published=True,
-            date_published__lt=datetime.now(),
+            date_published__lt=datetime.now(tz=timezone.utc),
         ).order_by("-date_published")
 
     def best_published(self):
-        test = list(self.filter(is_published=True, date_published__lt=datetime.now()))
+        test = list(self.filter(is_published=True, date_published__lt=datetime.now(tz=timezone.utc)))
         test = sorted(test, key=lambda x: x.like.count(), reverse=True)
         return test
 
     def by_tag(self, tag):
-        return self.filter(is_published=True, date_published__lt=datetime.now(), tags__name=tag)
+        return self.filter(is_published=True, date_published__lt=datetime.now(tz=timezone.utc), tags__name=tag)
 
 
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
-    date_published = models.DateTimeField(verbose_name='Дата публикации', default=datetime.now())
+    date_published = models.DateTimeField(verbose_name='Дата публикации', default=datetime.now(tz=timezone.utc))
     is_published = models.BooleanField(verbose_name='Опубликовано',default=True,blank=True)
     author = models.ForeignKey(
         Author,
@@ -100,7 +100,7 @@ class Answer(models.Model):
     dislike = models.ManyToManyField(Dislike,blank=True)
 
     text = models.TextField(verbose_name='Текст ответа')
-    date_published = models.DateTimeField(verbose_name='Дата ответа', default=datetime.now())
+    date_published = models.DateTimeField(verbose_name='Дата ответа', default=datetime.now(tz=timezone.utc))
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     objects = AnswerManager()
 

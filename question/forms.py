@@ -107,8 +107,8 @@ class QuestionForm(ModelForm):
 
     def clean_title(self):
         data = self.cleaned_data['title']
-        if 'bad word' in data:
-            self.add_error('title', 'bad word detected!')
+        if 'yandex' in data:
+            self.add_error('title', 'yandex detected!')
         return data
 
     def clean_m_tag(self):

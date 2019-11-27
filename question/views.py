@@ -125,7 +125,7 @@ def hot_questions_html(request):
 
 
 def paginate(objects_list, request):
-    paginator = Paginator(objects_list, 3)
+    paginator = Paginator(list(objects_list), 4)
 
     page = request.GET.get('page')
     try:
