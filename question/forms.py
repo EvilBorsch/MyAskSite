@@ -129,3 +129,17 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = ['text']
+
+    def __init__(self, author, question_id, *args, **kwargs):
+        self.author = author
+        self.question = Article.objects.get(pk=question_id)
+
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.author = self.author
+        obj.question = self.question
+        if commit:
+            obj.save()
+        return obj

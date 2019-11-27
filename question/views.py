@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 
 from question import models
-from question.forms import LoginForm, RegisterForm, QuestionForm
+from question.forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
 from question.models import Author, Article, Tags
 from django.urls import reverse
 
@@ -16,7 +16,24 @@ def one_question(request, m_id):
         return render(request, "./question/404.html")
     answers = models.Answer.objects.by_question(m_id)
     paginated_data = paginate(answers, request)
-    rendered_data = {"questions": paginated_data, "main_question": main_quest}
+    form = AnswerForm(author=Author.objects.get(pk=1), question_id=m_id)
+    if request.POST:
+        try:
+            aut = Author.objects.get(name=request.user.username)
+        except Author.DoesNotExist:
+            aut.save()
+
+        form = AnswerForm(
+            author=aut, question_id=m_id, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        else:
+            print(form.errors)
+            rendered_data = {"questions": paginated_data, "main_question": main_quest, "form": form}
+            return render(request, "./question/one_question.html", rendered_data)
+
+    rendered_data = {"questions": paginated_data, "main_question": main_quest, "form": form}
     return render(request, "./question/one_question.html", rendered_data)
 
 
@@ -80,16 +97,14 @@ def register_html(request):
 
 
 def add_question_html(request):
-
     if not request.user.is_authenticated:
         return redirect('/')
-
-    try:
-        aut = Author.objects.get(name=request.user.username)
-    except Author.DoesNotExist:
-        aut.save()
-
     if request.POST:
+        try:
+            aut = Author.objects.get(name=request.user.username)
+        except Author.DoesNotExist:
+            aut.save()
+
         form = QuestionForm(
             aut, data=request.POST)
         if form.is_valid():
@@ -103,7 +118,7 @@ def add_question_html(request):
                 'form': form,
             })
     else:
-        form = QuestionForm(aut)
+        form = QuestionForm(author=Author.objects.get(pk=1))
         return render(request, 'question/add_question.html', {
             'form': form,
         })

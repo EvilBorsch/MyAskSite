@@ -47,11 +47,11 @@
 {% block pre_paginator %}
     <hr size="8" color="gray">
 
-    <div class="in">
+    <form class="in" method="POST">
+        {% csrf_token %}
         <div class="row">
-
             <div class="col-xs-12 col-sm-6 col-md-8">
-                <textarea class="form-control" rows="9" placeholder="Что можете сказать?"></textarea>
+                <textarea class="form-control" rows="9" placeholder="Что можете сказать?" {{ form.text }}</textarea>
             </div>
             <div class="col-xs-6 col-md-2">
 
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-    </div>
+    </form>
 {% endblock %}
 
 {% block link_to_ans %}{% endblock %}
