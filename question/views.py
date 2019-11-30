@@ -59,15 +59,10 @@ def login_html(request):
                 return redirect(redirected_path)
             else:
                 form.add_error(None, 'Неправильный логин или пароль')
-
-                return render(request, "./question/login.html", {"form": form})
-        else:
-
-            return render(request, "./question/login.html", {"form": form})
     else:
         form = LoginForm()
 
-        return render(request, "./question/login.html", {"form": form})
+    return render(request, "./question/login.html", {"form": form})
 
 
 def register_html(request):
@@ -168,6 +163,7 @@ def profile_edit(request):
         form = RegisterForm(request.POST)
         if not form.is_valid():
             print("okok")
+
             nickname = form.clean_nickname()
             password = form.clean_password()
             email = form.clean_email()
@@ -175,14 +171,14 @@ def profile_edit(request):
             request.user.set_password(password)
             request.user.username = form.clean_login()
             request.user.first_name = nickname
+
+            request.user.avatar = request.FILES
             request.user.save()
+
             login(request, user=request.user)
             return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            print(form.errors)
-            return render(request, "./question/profile.html", {"form": form})
-    else:
 
+    else:
         data = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
         form = RegisterForm(data)
-        return render(request, "./question/profile.html", {"form": form})
+    return render(request, "./question/profile.html", {"form": form})

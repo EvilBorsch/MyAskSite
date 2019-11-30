@@ -75,14 +75,12 @@ class RegisterForm(ModelForm):
         password = self.cleaned_data["password"]
         return password
 
-    def clean_avatar(self):
-
-        try:
-            avatar = self.cleaned_data["avatar"]
-            print("ya tut")
-            return avatar
-        except:
-            print("test")
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.avatar = self.avatar
+        if commit:
+            obj.save()
+        return obj
 
 
 class QuestionForm(ModelForm):
