@@ -75,9 +75,15 @@ class RegisterForm(ModelForm):
         password = self.cleaned_data["password"]
         return password
 
+    def __init__(self, m_avatar, *args, **kwargs):
+        self.avatar = m_avatar
+        super().__init__(*args, **kwargs)
+
     def save(self, commit=True):
+        print(self.avatar.path)
         obj = super().save(commit=False)
         obj.avatar = self.avatar
+
         if commit:
             obj.save()
         return obj

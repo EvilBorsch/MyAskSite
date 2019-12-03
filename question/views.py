@@ -159,9 +159,10 @@ def profile_edit(request):
     if not request.user.is_authenticated:
         return redirect('/')
 
+
     if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if not form.is_valid():
+        form = RegisterForm(m_avatar=request.FILES, data=request.POST)
+        if form.is_valid():
             print("okok")
 
             nickname = form.clean_nickname()
@@ -179,6 +180,6 @@ def profile_edit(request):
             return redirect(request.META.get('HTTP_REFERER'))
 
     else:
-        data = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
-        form = RegisterForm(data)
+        mdata = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
+        form = RegisterForm(m_avatar=request.FILES, data=mdata)
     return render(request, "./question/profile.html", {"form": form})
