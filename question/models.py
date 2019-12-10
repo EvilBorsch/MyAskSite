@@ -5,10 +5,24 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
+from userprofile.models import UserProfile
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Имя', unique=True)
+    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
+
+    def __str__(self):
+        return '{}_{}'.format(self.name, self.rating)
+
+    # "красивое" название модели
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
 
 
 class Like(models.Model):
-    author = models.CharField(max_length=255, verbose_name="Автор лайка", default="admin")
+    author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     is_set = models.BooleanField(verbose_name="Поставлен ли лайк", default=False)
 
     def __str__(self):
@@ -16,7 +30,7 @@ class Like(models.Model):
 
 
 class Dislike(models.Model):
-    author = models.CharField(max_length=255, verbose_name="Автор дизлайка", default="admin")
+    author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
 
     def __str__(self):
@@ -31,17 +45,7 @@ class Tags(models.Model):
         return '{}_{}'.format(self.name, self.count)
 
 
-class Author(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Имя',unique=True)
-    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
 
-    def __str__(self):
-        return '{}_{}'.format(self.name, self.rating)
-
-    # "красивое" название модели
-    class Meta:
-        verbose_name = 'Автор'
-        verbose_name_plural = 'Авторы'
 
 
 class ArticleManager(models.Manager):
