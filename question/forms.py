@@ -48,7 +48,7 @@ class RegisterForm(ModelForm):
         fields = ["avatar"]
 
     def clean_repeated_password(self):
-
+        print("ya")
         if (self.cleaned_data["password"] == self.cleaned_data["repeated_password"]):
 
             return self.cleaned_data["repeated_password"]
@@ -76,13 +76,13 @@ class RegisterForm(ModelForm):
         return password
 
     def __init__(self, m_avatar, *args, **kwargs):
-        self.avatar = m_avatar
+        # self.avatar = m_avatar
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        print(self.avatar.path)
+        #print(self.avatar.path)
         obj = super().save(commit=False)
-        obj.avatar = self.avatar
+        #obj.avatar = self.avatar
 
         if commit:
             obj.save()

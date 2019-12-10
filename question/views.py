@@ -21,6 +21,7 @@ def one_question(request, m_id):
         try:
             aut = Author.objects.get(name=request.user.username)
         except Author.DoesNotExist:
+            aut = Author(name=request.user.username)
             aut.save()
 
         form = AnswerForm(
@@ -88,12 +89,13 @@ def register_html(request):
             user.avatar = avatar
             user.save()
             login(request, user=user)
+
             return redirect('/')
         else:
             print(form.errors)
             return render(request, "./question/register.html", {"form": form})
     else:
-        form = RegisterForm()
+        form = RegisterForm(m_avatar=request.FILES)
         return render(request, "./question/register.html", {"form": form})
 
 
@@ -166,7 +168,7 @@ def profile_edit(request):
 
     if request.method == "POST":
         form = RegisterForm(request.POST)
-        if not form.is_valid():
+        if form.is_valid():
             print("okok")
             nickname = form.clean_nickname()
             password = form.clean_password()
@@ -179,7 +181,6 @@ def profile_edit(request):
             login(request, user=request.user)
             return redirect(request.META.get('HTTP_REFERER'))
         else:
-            print(form.errors)
             return render(request, "./question/profile.html", {"form": form})
     else:
 
