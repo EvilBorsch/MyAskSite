@@ -36,7 +36,7 @@ class LoginForm(forms.Form):
         return password
 
 
-class RegisterForm(ModelForm):
+class RegisterForm(forms.ModelForm):
     login = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField()
@@ -48,7 +48,7 @@ class RegisterForm(ModelForm):
         fields = ["avatar"]
 
     def clean_repeated_password(self):
-        print("ya")
+
         if (self.cleaned_data["password"] == self.cleaned_data["repeated_password"]):
 
             return self.cleaned_data["repeated_password"]
@@ -56,11 +56,12 @@ class RegisterForm(ModelForm):
             raise ValidationError("Пароли не совпадают")
 
     def clean_nickname(self):
+
         return self.cleaned_data["nickname"]
 
     def clean_login(self):
-        login = self.cleaned_data["login"]
 
+        login = self.cleaned_data["login"]
         if (login != "yandex"):
             return login
         else:
@@ -75,15 +76,12 @@ class RegisterForm(ModelForm):
         password = self.cleaned_data["password"]
         return password
 
-    def __init__(self, m_avatar, *args, **kwargs):
-        # self.avatar = m_avatar
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        #print(self.avatar.path)
-        obj = super().save(commit=False)
-        #obj.avatar = self.avatar
 
+        obj = super().save(commit=False)
         if commit:
             obj.save()
         return obj

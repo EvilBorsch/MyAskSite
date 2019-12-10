@@ -167,8 +167,10 @@ def profile_edit(request):
         return redirect('/')
 
     if request.method == "POST":
+
         form = RegisterForm(request.POST)
         if form.is_valid():
+
             print("okok")
             nickname = form.clean_nickname()
             password = form.clean_password()
@@ -179,8 +181,10 @@ def profile_edit(request):
             request.user.first_name = nickname
             request.user.save()
             login(request, user=request.user)
+
             return redirect(request.META.get('HTTP_REFERER'))
         else:
+            print(form.errors)
             return render(request, "./question/profile.html", {"form": form})
     else:
 

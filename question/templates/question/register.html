@@ -3,7 +3,7 @@
 {% block content %}
     <div class="register">
         <div class="container col-md-10">
-            <form class="form-signin" method="POST">
+            <form class="form-signin" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 {% ifequal request.method "POST" %}
@@ -57,7 +57,7 @@
 
                 Аватар
                 <div class="input-group">
-                    <input class="form-control" id="disabledInput" type="file"
+                    <input class="form-control" id="disabledInput" type="image"
                            placeholder="Путь до фотографии" {{ form.avatar }}
                     <span class="input-group-btn">
               <button class="btn btn-primary" type="submit">Сохранить</button>
