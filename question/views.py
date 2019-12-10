@@ -18,11 +18,7 @@ def one_question(request, m_id):
     paginated_data = paginate(answers, request)
     form = AnswerForm(author=Author.objects.get(pk=1), question_id=m_id)
     if request.POST:
-        try:
-            aut = Author.objects.get(name=request.user.username)
-        except Author.DoesNotExist:
-            aut = Author(name=request.user.username)
-            aut.save()
+        aut, _ = Author.objects.get_or_create(name=request.user.username)
 
         form = AnswerForm(
             author=aut, question_id=m_id, data=request.POST)
@@ -103,11 +99,8 @@ def add_question_html(request):
     if not request.user.is_authenticated:
         return redirect('/')
     if request.POST:
-        try:
-            aut = Author.objects.get(name=request.user.username)
-        except Author.DoesNotExist:
-            aut = Author(name=request.user.username)
-            aut.save()
+
+        aut, _ = Author.objects.get_or_create(name=request.user.username)
 
         form = QuestionForm(
             aut, data=request.POST)
