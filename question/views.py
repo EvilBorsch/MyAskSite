@@ -95,7 +95,7 @@ def register_html(request):
             print(form.errors)
             return render(request, "./question/register.html", {"form": form})
     else:
-        form = RegisterForm(m_avatar=request.FILES)
+        form = RegisterForm()
         return render(request, "./question/register.html", {"form": form})
 
 
@@ -106,6 +106,7 @@ def add_question_html(request):
         try:
             aut = Author.objects.get(name=request.user.username)
         except Author.DoesNotExist:
+            aut = Author(name=request.user.username)
             aut.save()
 
         form = QuestionForm(
