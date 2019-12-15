@@ -22,12 +22,13 @@ urlpatterns = [
     path('question/', views.index_html, name="test"),
     path('question/<str:m_id>', views.one_question, name="one_question_url"),
     path('', views.index_html, name="index"),
-    path('login/',views.login_html,name="login_url"),
-    path('register/',views.register_html,name="register_url"),
-    path('add_question/',views.add_question_html,name="add_question_url"),
-    path('question_by_tag/<str:tag>',views.questions_by_tag_html,name="question_by_tag_url"),
-    path('hot_questions/',views.hot_questions_html,name="hot_questions_url"),
-    path('logout/',views.log_out,name="logout_url"),
-    path('profile/edit',views.profile_edit,name="profile_edit_url")
+    path('login/', views.login_html, name="login_url"),
+    path('register/', views.register_html, name="register_url"),
+    path('add_question/', views.add_question_html, name="add_question_url"),
+    path('question_by_tag/<str:tag>', views.questions_by_tag_html, name="question_by_tag_url"),
+    path('hot_questions/', views.hot_questions_html, name="hot_questions_url"),
+    path('logout/', views.log_out, name="logout_url"),
+    path('profile/edit', views.profile_edit, name="profile_edit_url"),
+    path('vote/', views.vote, name="vote_url")
 
 ]

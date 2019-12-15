@@ -1,14 +1,19 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 
 from question import models
 from question.forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
-from question.models import Author, Article, Tags
+from question.models import Author, Article, Tags, Like
 from django.urls import reverse
+import json
+
+from django.http import JsonResponse
 
 from userprofile.models import UserProfile
+from django import db
 
 
 def one_question(request, m_id):
@@ -192,3 +197,23 @@ def profile_edit(request):
         data = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
         form = RegisterForm(data, instance=request.user)
         return render(request, "./question/profile.html", {"form": form})
+
+
+@login_required
+def vote(request):
+    data = json.loads(request.body)
+    if (request.method == "POST"):
+        user = UserProfile.objects.get(user=request.user)
+        like2 = Like.objects.get_or_create(author=user)  # TODO разделение на лайки и дизлайки
+
+        quest = Article.objects.get(pk=data['qid'])
+
+        quest.like.set(like2)  # TODO like set
+        print("ya tut")
+
+
+
+    else:
+        print("no")
+
+    return JsonResponse(data)
