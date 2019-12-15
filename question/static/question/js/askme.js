@@ -41,3 +41,29 @@ $('.like').on(
         return false;
     }
 );
+
+
+$('.dislike').on(
+    'click', function () {
+        el = $(this);
+
+        qid = el.data('qid');
+        vote = el.data('vote');
+        data = {qid: qid, vote: vote};
+
+        fetch(
+            '/vote/', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                credentials: 'include',
+                headers: {"X-CSRFToken": csrftoken},
+            }
+        )
+            .then(response => response.json())
+            .then(resp_data => {
+                el.html(resp_data["resp"]);
+
+            });
+        return false;
+    }
+);
