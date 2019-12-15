@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 
 from question import models
 from question.forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
-from question.models import Author, Article, Tags, Like
+from question.models import Author, Article, Tags
 from django.urls import reverse
 import json
 
@@ -204,15 +204,10 @@ def vote(request):
     data = json.loads(request.body)
     if (request.method == "POST"):
         user = UserProfile.objects.get(user=request.user)
-        like2 = Like.objects.get_or_create(author=user)  # TODO разделение на лайки и дизлайки
-
         quest = Article.objects.get(pk=data['qid'])
-
-        quest.like.set(like2)  # TODO like set
-        print("ya tut")
-
-
-
+        quest.like.add(user)  # TODO like set
+        like_count = quest.like.count()
+        data['resp'] = like_count
     else:
         print("no")
 

@@ -21,18 +21,6 @@ class Author(models.Model):
         verbose_name_plural = 'Авторы'
 
 
-class Like(models.Model):
-    author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.author)
-
-
-class Dislike(models.Model):
-    author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.author)
 
 
 class Tags(models.Model):
@@ -70,8 +58,8 @@ class Article(models.Model):
         on_delete=models.CASCADE,
     )
 
-    like = models.ManyToManyField(Like, related_name="Like", blank=True)
-    dislike = models.ManyToManyField(Dislike, blank=True)
+    like = models.ManyToManyField(UserProfile, related_name="Article_like", blank=True)
+    dislike = models.ManyToManyField(UserProfile, related_name="Article_dislike", blank=True)
     tags = models.ManyToManyField(Tags, blank=True)
 
     objects = ArticleManager()  # model manager
@@ -95,8 +83,8 @@ class AnswerManager(models.Manager):
 class Answer(models.Model):
     question = models.ForeignKey(Article, on_delete=models.CASCADE)
 
-    like = models.ManyToManyField(Like, blank=True)
-    dislike = models.ManyToManyField(Dislike, blank=True)
+    like = models.ManyToManyField(UserProfile, related_name="Answer_like", blank=True)
+    dislike = models.ManyToManyField(UserProfile, related_name="Answer_dislike", blank=True)
 
     text = models.TextField(verbose_name='Текст ответа')
     date_published = models.DateTimeField(verbose_name='Дата ответа', default=datetime.now(tz=timezone.utc))

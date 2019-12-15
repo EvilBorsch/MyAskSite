@@ -17,14 +17,13 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 
 
-$('.js-vote').on(
+$('.like').on(
     'click', function () {
         el = $(this);
 
         qid = el.data('qid');
         vote = el.data('vote');
         data = {qid: qid, vote: vote};
-        console.log("DATA", data);
 
         fetch(
             '/vote/', {
@@ -36,9 +35,9 @@ $('.js-vote').on(
         )
             .then(response => response.json())
             .then(resp_data => {
-                console.log(resp_data);
-            });
+                el.html(resp_data["resp"]);
 
+            });
         return false;
     }
 );
