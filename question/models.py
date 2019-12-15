@@ -23,7 +23,6 @@ class Author(models.Model):
 
 class Like(models.Model):
     author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    is_set = models.BooleanField(verbose_name="Поставлен ли лайк", default=False)
 
     def __str__(self):
         return str(self.author)
@@ -31,7 +30,6 @@ class Like(models.Model):
 
 class Dislike(models.Model):
     author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    is_set = models.BooleanField(verbose_name="Поставлен ли дизлайк", default=False)
 
     def __str__(self):
         return str(self.author)

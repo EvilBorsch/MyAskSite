@@ -82,6 +82,7 @@ class RegisterForm(forms.ModelForm):
         password = self.cleaned_data["password"]
         return password
 
+
 class QuestionForm(ModelForm):
     m_tag = forms.CharField()
 
