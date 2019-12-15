@@ -8,6 +8,8 @@ from question.forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
 from question.models import Author, Article, Tags
 from django.urls import reverse
 
+from userprofile.models import UserProfile
+
 
 def one_question(request, m_id):
     try:
@@ -79,11 +81,10 @@ def register_html(request):
             password = form.clean_password()
             email = form.clean_email()
             nickname = form.clean_nickname()
-            avatar = form.clean_avatar()
             user = User.objects.create_user(username=username, password=password, email=email)
             user.first_name = nickname
-            user.avatar = avatar
             user.save()
+
             login(request, user=user)
 
             return redirect('/')
@@ -162,7 +163,9 @@ def profile_edit(request):
 
     if request.method == "POST":
 
-        form = RegisterForm(request.POST)
+        form = RegisterForm(data=request.POST,
+                            files=request.FILES,
+                            instance=request.user)
         if form.is_valid():
 
             print("okok")
@@ -173,9 +176,13 @@ def profile_edit(request):
             request.user.set_password(password)
             request.user.username = form.clean_login()
             request.user.first_name = nickname
+            print(request.FILES)
+            for item in request.FILES:
+                print(item)
+
             request.user.save()
             login(request, user=request.user)
-
+            form.save()
             return redirect(request.META.get('HTTP_REFERER'))
         else:
             print(form.errors)
@@ -183,5 +190,5 @@ def profile_edit(request):
     else:
 
         data = {'login': request.user.username, 'email': request.user.email, 'nickname': request.user.first_name}
-        form = RegisterForm(data)
+        form = RegisterForm(data, instance=request.user)
         return render(request, "./question/profile.html", {"form": form})

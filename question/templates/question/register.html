@@ -57,7 +57,7 @@
 
                 Аватар
                 <div class="input-group">
-                    <input class="form-control" id="disabledInput" type="image"
+                    <input class="form-control" id="disabledInput" type="file" formenctype="multipart/form-data"
                            placeholder="Путь до фотографии" {{ form.avatar }}
                     <span class="input-group-btn">
               <button class="btn btn-primary" type="submit">Сохранить</button>
@@ -71,6 +71,10 @@
             </form>
         </div>
     </div>
+
+
+
+
 
 {% endblock %}
 
