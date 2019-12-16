@@ -29,6 +29,7 @@ urlpatterns = [
     path('hot_questions/', views.hot_questions_html, name="hot_questions_url"),
     path('logout/', views.log_out, name="logout_url"),
     path('profile/edit', views.profile_edit, name="profile_edit_url"),
-    path('vote/', views.vote, name="vote_url")
+    path('vote/', views.vote, name="vote_url"),
+    path('checkbox/', views.checkbox, name="checkbox_url"),
 
 ]

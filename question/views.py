@@ -13,7 +13,6 @@ import json
 from django.http import JsonResponse
 
 from userprofile.models import UserProfile
-from django import db
 
 
 def one_question(request, m_id):
@@ -221,4 +220,23 @@ def vote(request):
             else:
                 ans.dislike.add(user)
                 data['resp'] = ans.dislike.count()
+    return JsonResponse(data)
+
+
+def checkbox(request):
+    data = json.loads(request.body)
+    ans = Answer.objects.get(pk=data['qid'])
+
+    if (request.user.username == ans.author.name):
+
+        print(data)
+
+        is_correct = data['correct']
+        if (is_correct == "True"):
+            ans.is_correct = False
+            data['resp'] = False
+        else:
+            ans.is_correct = True
+            data['resp'] = True
+        ans.save()
     return JsonResponse(data)

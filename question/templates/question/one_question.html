@@ -2,18 +2,21 @@
 {% load static %}
 
 {% block correct %}
+    {% ifequal request.user.username q.question.author.name %}
+        <a class="checkbox" data-qid="{{ q.pk }}" data-correct="{{ q.is_correct }}">
+            <label>
 
-    <a class="checkbox">
-        <label>
-            <input type="checkbox"
-                    {% if q.is_correct %}
-                   checked=""
-                        >
-                    {% endif %}
-            <b>correct</b>
-        </label>
+                <input type="checkbox"
+                        {% if q.is_correct %}
+                       checked=""
+                        {% endif %}
+                >
+                <b>correct</b>
+            </label>
+        </a>
+    {% endifequal %}
 
-    </a>
+
 {% endblock %}
 
 

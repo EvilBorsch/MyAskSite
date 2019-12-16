@@ -87,9 +87,9 @@ $('.checkbox').on(
             .then(response => response.json())
             .then(resp_data => {
                 el.checked = true;
-                var kek = resp_data['resp'];
-                el.html("resp_data['resp']");
-                console.log(kek);
+
+                el.html("checked=false");
+                console.log(el.html());
 
             });
         return false;

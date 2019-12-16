@@ -1,0 +1,15 @@
+.avatar {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.p-4 {
+    border: solid 1px gray;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+#main_row {
+    margin-top: 90px;
+}

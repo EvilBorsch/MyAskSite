@@ -1,0 +1,50 @@
+#sidebar {
+    margin-top: 55px;
+}
+
+
+.like {
+
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 2px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background: LightSlateGray;
+    border: 6px solid transparent;
+    padding: 5px 5px;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border-radius: 20px;
+}
+
+.dislike {
+
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 2px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background: DimGrey;
+    border: 6px solid transparent;
+    padding: 5px 5px;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border-radius: 20px;
+}
+
+.qty1, .qty2 {
+    border: none;
+    width: 20px;
+    background: transparent;
+}
+
+.pagination {
+    margin-top: 20px;
+}
