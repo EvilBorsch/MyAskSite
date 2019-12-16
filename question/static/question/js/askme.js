@@ -23,8 +23,9 @@ $('.like').on(
 
         qid = el.data('qid');
         vote = el.data('vote');
+        type = el.data('type');
         data = {qid: qid, vote: vote};
-
+        data = {qid: qid, vote: vote, type: type};
         fetch(
             '/vote/', {
                 method: 'POST',
@@ -49,8 +50,8 @@ $('.dislike').on(
 
         qid = el.data('qid');
         vote = el.data('vote');
-        data = {qid: qid, vote: vote};
-
+        type = el.data('type');
+        data = {qid: qid, vote: vote, type: type};
         fetch(
             '/vote/', {
                 method: 'POST',

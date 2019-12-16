@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 
 from question import models
 from question.forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
-from question.models import Author, Article, Tags
+from question.models import Author, Article, Tags, Answer
 from django.urls import reverse
 import json
 
@@ -205,15 +205,20 @@ def vote(request):
 
     if (request.method == "POST"):
         user = UserProfile.objects.get(user=request.user)
-        quest = Article.objects.get(pk=data['qid'])
-        if (data['vote'] == "inc"):
-            quest.like.add(user)
-            data['resp'] = quest.like.count()
+        if (data['type'] == "question"):
+            quest = Article.objects.get(pk=data['qid'])
+            if (data['vote'] == "inc"):
+                quest.like.add(user)
+                data['resp'] = quest.like.count()
+            else:
+                quest.dislike.add(user)
+                data['resp'] = quest.dislike.count()
         else:
-            quest.dislike.add(user)
-            data['resp'] = quest.dislike.count()
-
-    else:
-        print("no")
-
+            ans = Answer.objects.get(pk=data['qid'])
+            if (data['vote'] == "inc"):
+                ans.like.add(user)
+                data['resp'] = ans.like.count()
+            else:
+                ans.dislike.add(user)
+                data['resp'] = ans.dislike.count()
     return JsonResponse(data)

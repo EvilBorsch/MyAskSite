@@ -16,6 +16,23 @@
     </a>
 {% endblock %}
 
+
+{% block likes %}
+    <div class="fluid-container">
+    <a class="like" data-qid="{{ q.pk }}"
+       data-vote="inc" data-type="answer"> <i class="fa fa-thumbs-o-up"></i>
+        {{ q.like.count }}
+
+    </a>
+    <a class="dislike" data-qid="{{ q.pk }}"
+       data-vote="dec" data-type="answer"><i class="fa fa-thumbs-o-down"></i>
+        {{ q.dislike.count }}
+    </a>
+
+
+
+{% endblock %}
+
 {% block title %}
     <link rel="stylesheet" href="{% static "question/one_question/my.css" %}">
 
@@ -32,14 +49,11 @@
                     <a class="like" data-qid="{{ main_question.pk }}"
                        data-vote="inc"> <i class="fa fa-thumbs-o-up"></i>
                         {{ main_question.like.count }}
-
                     </a>
                     <a class="dislike" data-qid="{{ main_question.pk }}"
                        data-vote="dec"><i class="fa fa-thumbs-o-down"></i>
                         {{ main_question.dislike.count }}
                     </a>
-
-
                 </div>
             </div>
             <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb"

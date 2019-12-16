@@ -16,17 +16,18 @@
                     {% endblock %}
                     <div class="mb-1 text-muted">{{ q.date_published }} {{ q.author }}</div>
                     <p class="card-text mb-auto">{{ q.text }}</p>
-
+                    {% block likes %}
                     <div class="fluid-container">
                         <a class="like" data-qid="{{ q.pk }}"
-                           data-vote="inc"> <i class="fa fa-thumbs-o-up"></i>
+                           data-vote="inc" data-type="question"> <i class="fa fa-thumbs-o-up"></i>
                             {{ q.like.count }}
 
                         </a>
                         <a class="dislike" data-qid="{{ q.pk }}"
-                           data-vote="dec"><i class="fa fa-thumbs-o-down"></i>
+                           data-vote="dec" data-type="question"><i class="fa fa-thumbs-o-down"></i>
                             {{ q.dislike.count }}
                         </a>
+                    {% endblock %}
 
 
                         <script src="{% static "question/js/askme.js" %}"></script>
