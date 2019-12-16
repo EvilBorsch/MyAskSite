@@ -202,6 +202,7 @@ def profile_edit(request):
 @login_required
 def vote(request):
     data = json.loads(request.body)
+
     if (request.method == "POST"):
         user = UserProfile.objects.get(user=request.user)
         quest = Article.objects.get(pk=data['qid'])

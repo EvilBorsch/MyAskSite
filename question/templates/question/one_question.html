@@ -5,9 +5,14 @@
 
     <a class="checkbox">
         <label>
-            <input type="checkbox" value="">
+            <input type="checkbox"
+                    {% if q.is_correct %}
+                   checked=""
+                        >
+                    {% endif %}
             <b>correct</b>
         </label>
+
     </a>
 {% endblock %}
 
