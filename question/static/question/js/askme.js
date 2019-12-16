@@ -88,8 +88,8 @@ $('.checkbox').on(
             .then(resp_data => {
                 el.checked = true;
                 var kek = resp_data['resp'];
-                el.html("resp_data['resp']");
-                console.log(kek);
+                el.html(kek.toString());
+                console.log(kek);  // TODO нормально отображать чекбокс
 
             });
         return false;
