@@ -206,7 +206,7 @@ def vote(request):
         user = UserProfile.objects.get(user=request.user)
         quest = Article.objects.get(pk=data['qid'])
         if (data['vote'] == "inc"):
-            quest.like.add(user)  # TODO like set
+            quest.like.add(user)
             data['resp'] = quest.like.count()
         else:
             quest.dislike.add(user)

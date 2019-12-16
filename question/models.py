@@ -89,6 +89,7 @@ class Answer(models.Model):
     text = models.TextField(verbose_name='Текст ответа')
     date_published = models.DateTimeField(verbose_name='Дата ответа', default=datetime.now(tz=timezone.utc))
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
     objects = AnswerManager()
 
     def __str__(self):

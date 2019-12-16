@@ -14,7 +14,7 @@
     vertical-align: middle;
     cursor: pointer;
     background: LightSlateGray;
-    border: 2px solid transparent;
+    border: 6px solid transparent;
     padding: 5px 5px;
     white-space: nowrap;
     font-size: 14px;
@@ -32,7 +32,7 @@
     vertical-align: middle;
     cursor: pointer;
     background: DimGrey;
-    border: 2px solid transparent;
+    border: 6px solid transparent;
     padding: 5px 5px;
     white-space: nowrap;
     font-size: 14px;
@@ -40,11 +40,6 @@
     border-radius: 20px;
 }
 
-.qty1, .qty2 {
-    border: none;
-    width:20px;
-    background: transparent;
-}
 
 .pagination{
     margin-top: 20px;

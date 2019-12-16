@@ -24,13 +24,14 @@
                 <div class="mb-1 text-muted">{{ main_question.date_published }}</div>
                 <p class="card-text mb-auto">{{ main_question.text }}</p>
                 <div class="fluid-container">
-                    <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                        <input class="qty1" name="qty1" readonly="readonly" type="text"
-                               value="{{ main_question.like.all.count }}"/>
+                    <a class="like" data-qid="{{ main_question.pk }}"
+                       data-vote="inc"> <i class="fa fa-thumbs-o-up"></i>
+                        {{ main_question.like.count }}
+
                     </a>
-                    <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                        <input class="qty2" name="qty2" readonly="readonly" type="text"
-                               value="{{ main_question.dislike.all.count }}"/>
+                    <a class="dislike" data-qid="{{ main_question.pk }}"
+                       data-vote="dec"><i class="fa fa-thumbs-o-down"></i>
+                        {{ main_question.dislike.count }}
                     </a>
 
 
