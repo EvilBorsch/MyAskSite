@@ -19,12 +19,17 @@ var csrftoken = getCookie('csrftoken');
 
 $('.like').on(
     'click', function () {
+        this._callCount = this._callCount || 0; // static scoped variable
+        if (this._callCount++ >= 1) {
+
+            return;
+        }
         el = $(this);
 
         qid = el.data('qid');
         vote = el.data('vote');
         type = el.data('type');
-        data = {qid: qid, vote: vote};
+        console.log(el);
         data = {qid: qid, vote: vote, type: type};
         fetch(
             '/vote/', {
@@ -46,6 +51,12 @@ $('.like').on(
 
 $('.dislike').on(
     'click', function () {
+
+        this._callCount = this._callCount || 0; // static scoped variable
+        if (this._callCount++ >= 1) {
+
+            return;
+        }
         el = $(this);
 
         qid = el.data('qid');

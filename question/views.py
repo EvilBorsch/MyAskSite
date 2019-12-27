@@ -87,8 +87,7 @@ def register_html(request):
             nickname = form.clean_nickname()
             user = User.objects.create_user(username=username, password=password, email=email)
             user.first_name = nickname
-            user.save()
-
+            UserProfile.objects.create(user=user)
             login(request, user=user)
 
             return redirect('/')
@@ -164,6 +163,8 @@ def log_out(request):
 def profile_edit(request):
     if not request.user.is_authenticated:
         return redirect('/')
+    print(UserProfile.objects.all())
+    print(UserProfile.objects.get(user=request.user).avatar)
 
     if request.method == "POST":
 
@@ -180,13 +181,19 @@ def profile_edit(request):
             request.user.set_password(password)
             request.user.username = form.clean_login()
             request.user.first_name = nickname
+
             print(request.FILES)
             for item in request.FILES:
                 print(item)
+            # request.user.save()
 
-            request.user.save()
+            kek = UserProfile.objects.get(user=request.user)
+            kek.avatar = request.FILES.get('avatar')
+            kek.save()
+
             login(request, user=request.user)
             form.save()
+
             return redirect(request.META.get('HTTP_REFERER'))
         else:
             print(form.errors)

@@ -19,12 +19,17 @@ var csrftoken = getCookie('csrftoken');
 
 $('.like').on(
     'click', function () {
+        this._callCount = this._callCount || 0; // static scoped variable
+        if (this._callCount++ > 1) {
+            // reached over 5, exitting.
+            return;
+        }
         el = $(this);
 
         qid = el.data('qid');
         vote = el.data('vote');
         type = el.data('type');
-        data = {qid: qid, vote: vote};
+        console.log(el);
         data = {qid: qid, vote: vote, type: type};
         fetch(
             '/vote/', {
@@ -87,9 +92,9 @@ $('.checkbox').on(
             .then(response => response.json())
             .then(resp_data => {
                 el.checked = true;
-
-                el.html("checked=false");
-                console.log(el.html());
+                var kek = resp_data['resp'];
+                el.html(kek.toString());
+                console.log(kek);  // TODO нормально отображать чекбокс
 
             });
         return false;
