@@ -5,7 +5,7 @@ from django.db import models
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='images/users', verbose_name='Изображение',
+    avatar = models.ImageField(upload_to='question/static/images/avatars', verbose_name='Изображение',
                                default='question/static/question/base/default.jpeg')
 
     def __unicode__(self):

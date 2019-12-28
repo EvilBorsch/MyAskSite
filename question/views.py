@@ -42,9 +42,15 @@ def one_question(request, m_id):
 
 
 def index_html(request):
+    print(UserProfile.objects.all())
     articles = models.Article.objects.new_published()
     paginated_data = paginate(articles, request)
-    rendered_data = {"questions": paginated_data}
+    if (not request.user.is_active):
+        rendered_data = {"questions": paginated_data}
+    else:
+        rendered_data = {"questions": paginated_data,
+                         "avatar_path": UserProfile.objects.get(user=request.user).avatar.url[15:]}
+
     return render(request, "./question/index.html", rendered_data)
 
 
@@ -163,8 +169,7 @@ def log_out(request):
 def profile_edit(request):
     if not request.user.is_authenticated:
         return redirect('/')
-    print(UserProfile.objects.all())
-    print(UserProfile.objects.get(user=request.user).avatar)
+    print()
 
     if request.method == "POST":
 

@@ -56,13 +56,15 @@
 
             {% if user.is_authenticated %}
                 <a href="{% url 'profile_edit_url' %}">Hi,{{ user.username }}</a>
-                <img src={% static "question/base/default.jpeg" %} alt="" class="avatar"/>
-
+                <img src="{% static avatar_path %}" alt="" class="avatar"/>
+                {{ user.avatar }}
+                {{ user.get_profile.avatar }}
                 <a class="btn btn-sm btn-outline-secondary" href={% url 'profile_edit_url' %}#">Настройки</a>
                 <a class="btn btn-sm btn-outline-secondary" href="{% url 'logout_url' %}">Выйти</a>
 
             {% else %}
-                <a class="btn btn-sm btn-outline-secondary" href="{% url 'login_url' %}?put={{ request.path }}">Войти</a>
+                <a class="btn btn-sm btn-outline-secondary"
+                   href="{% url 'login_url' %}?put={{ request.path }}">Войти</a>
 
                 <a class="btn btn-sm btn-outline-secondary" href="{% url 'register_url' %}">Регистрация</a>
             {% endif %}

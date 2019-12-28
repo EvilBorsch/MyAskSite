@@ -104,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_PROFILE_MODULE = 'userprofile.UserProfile'  # TODO не работает
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
