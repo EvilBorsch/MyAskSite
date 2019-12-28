@@ -93,7 +93,7 @@ def register_html(request):
             nickname = form.clean_nickname()
             user = User.objects.create_user(username=username, password=password, email=email)
             user.first_name = nickname
-            UserProfile.objects.create(user=user)
+            UserProfile.objects.create(user=user, avatar=request.FILES.get('avatar'))
             login(request, user=user)
 
             return redirect('/')
@@ -187,14 +187,9 @@ def profile_edit(request):
             request.user.username = form.clean_login()
             request.user.first_name = nickname
 
-            print(request.FILES)
-            for item in request.FILES:
-                print(item)
-            # request.user.save()
-
-            kek = UserProfile.objects.get(user=request.user)
-            kek.avatar = request.FILES.get('avatar')
-            kek.save()
+            m_user = UserProfile.objects.get(user=request.user)
+            m_user.avatar = request.FILES.get('avatar')
+            m_user.save()
 
             login(request, user=request.user)
             form.save()
